@@ -37,7 +37,7 @@ function mapStage() {
     (toggles.length?'<div>'+action('layers','','▱　图层','map-layer')+'<div class="layer-panel" '+(state.layerMenu?'':'hidden')+'>'+toggles.map(([key,label])=>'<label><input type="checkbox" data-layer="'+key+'" '+(state.layers[key]?'checked':'')+'>'+label+'</label>').join('')+'</div></div>':'')+'</div>'+
     '<div class="map-overlay map-tools">'+[['in','放大地图','+'],['out','缩小地图','−'],['reset','查看全部宗地','⌖']].map(([key,label,icon])=>'<button class="map-btn" data-action="zoom" data-value="'+key+'" aria-label="'+label+'" title="'+label+'">'+icon+'</button>').join('')+'</div>'+
     '<div class="map-overlay map-legend">'+legend.map(([name,color])=>'<span>'+dot(color)+name+'</span>').join('')+'</div>'+
-    '<span class="map-caption">'+(window.PUBLIC_DEMO?'公开演示 · 全部宗地及业务数据均为模拟':'真实宗地 · 缺失业务字段与周边设施使用模拟数据')+'</span></section>';
+    '<span class="map-caption">'+(osmFailed&&state.basemap==='light'?'浅色底图暂时无法连接 · ':'')+(window.PUBLIC_DEMO?'公开演示 · 全部宗地及业务数据均为模拟':'真实宗地 · 缺失业务字段与周边设施使用模拟数据')+'</span></section>';
 }
 
 function nearby(p) {
@@ -116,10 +116,11 @@ function paintMap() {
       if(event.sourceId==='osm'&&!osmFailed) {
         osmFailed=true;
         const caption=document.querySelector('.map-caption');
-        if(caption) caption.textContent='底图暂时无法连接 · 宗地数据可继续查看';
+        if(caption&&state.basemap==='light') caption.textContent='浅色底图暂时无法连接 · '+caption.textContent;
       }
     });
-    landMap.on('load',()=>{
+    // The parcel layers must be available even if the external basemap is slow or offline.
+    landMap.once('style.load',()=>{
       landMap.addSource('parcels',{type:'geojson',data:{type:'FeatureCollection',features:[]}});
       landMap.addLayer({id:'parcel-fill',type:'fill',source:'parcels',paint:{'fill-color':['get','color'],'fill-opacity':.36}});
       landMap.addLayer({id:'parcel-outline',type:'line',source:'parcels',paint:{'line-color':['get','color'],'line-width':1}});

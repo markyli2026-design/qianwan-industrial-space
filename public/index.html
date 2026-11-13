@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="前湾产业空间云超市第二版交互原型，采用蓝白设计语言。">
+  <title>前湾产业空间云超市</title>
+  <link rel="stylesheet" href="vendor/maplibre-gl.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="system.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#planning" aria-label="前湾产业空间云超市首页">
+      <span class="brandmark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>前湾产业空间云超市<small>QIANWAN INDUSTRIAL SPACE</small></span>
+    </a>
+    <nav id="navigation" aria-label="系统模块"></nav>
+    <button id="admin-link" class="admin-link" type="button"><span aria-hidden="true">⚙</span> 数据管理</button>
+  </header>
+  <main id="app"><div class="loading-screen" role="status">正在加载工业用地宗地数据…</div></main>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script src="vendor/maplibre-gl.js"></script>
+  <script src="vendor/turf.min.js"></script>
+  <script src="data.js"></script>
+  <script src="map.js"></script>
+  <script src="bootstrap.js"></script>
+</body>
+</html>

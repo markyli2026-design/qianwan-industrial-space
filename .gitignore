@@ -1,0 +1,12 @@
+node_modules/
+server/state/
+server/generated/
+public/vendor/
+public/data.js
+dist/
+.env
+.env.*
+!.env.example
+*.log
+*.zip
+*预览.jpg
